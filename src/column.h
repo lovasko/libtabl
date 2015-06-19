@@ -1,3 +1,6 @@
+#ifndef TABL_COLUMN_H
+#define TABL_COLUMN_H
+
 #include <stdint.h>
 
 struct column
@@ -7,4 +10,6 @@ struct column
 	uint8_t align;
 	unsigned int max_width;
 };
+
+#endif
 
