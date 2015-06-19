@@ -58,7 +58,41 @@ $ ./passwd
 65534 nobody
 ```
 
-## API
+## Documentation 
+The usage of `libtabl` is completely linear. The whole workflow has four steps:
+initialisation, column creation, row insertion and rendering of the table. The
+order of tasks must be preserved.
+
+### Initialisation
+Use the `tabl_init(struct tabl* t)` function to initialise a already allocated
+table.
+
+### Column creation
+Each column is specified by the `name` displayed in the header, the `content`
+of the data in the column and the `align`ment of the data. To append a new
+column to the table, use the `tabl_add_column(struct tabl* t, const char* name,
+uint8_t content, uint8_t align)`. Appending a new column after already
+appending some rows will result in an runtime error.
+
+#### Content
+Content can be one of the following:
+ * `TABL_CONTENT_STRING` which expect the data to be a `NULL`-terminated string
+ * `TABL_CONTENT_DECIMAL` which expect a single `int` of data that will be printed in the decimal format
+
+#### Alignment
+Alignment can be one of the following:
+ * `TABL_ALIGN_LEFT` align content to the left
+ * `TABL_ALIGN_RIGHT` align content to the right 
+
+### Row insertion
+Each row is represented as a separate `m_list`. As a security measure, the
+number of columns and number of elements in the row is compared, to ensure the
+arity consistence. To append a row, use the `tabl_add_row(struct tabl* t,
+struct m_list* row)` function.
+
+### Table rendering
+To render the finished table onto the `stdout`, use the `tabl_render(struct
+tabl* t)` function.
 
 ## Supported platforms
  * FreeBSD 10.0 with Clang 3.3
