@@ -1,3 +1,6 @@
+#ifndef TABL_H
+#define TABL_H
+
 #include <stdint.h>
 #include <m_list.h>
 
@@ -21,5 +24,7 @@ struct tabl
 int tabl_init(struct tabl* t);
 int tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align);
 int tabl_add_row(struct tabl* t, struct m_list* values);
-int tabl_render(struct tabl* t, int fd);
+int tabl_render(struct tabl* t);
+
+#endif
 
