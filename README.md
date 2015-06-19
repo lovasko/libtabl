@@ -11,32 +11,32 @@ Table layout library for command line.
 Create a table of user names and their IDs from `/etc/passwd`.
 
 ```C
-#include <unistd.h>
+#include <stdlib.h>
 #include <pwd.h>
 #include <m_list.h>
 
 int
 main(void)
 {
-	struct passwd* pwd;
-	struct tabl t;
-	struct m_list values;
+  struct passwd* pwd;
+  struct tabl t;
+  struct m_list values;
 
-	tabl_init(&t);
-	tabl_add_column(&t, "UID", TABL_CONTENT_DECIMAL, TABL_ALIGN_RIGHT);
-	tabl_add_column(&t, "Name", TABL_CONTENT_STRING, TABL_ALIGN_RIGHT);
+  tabl_init(&t);
+  tabl_add_column(&t, "UID", TABL_CONTENT_DECIMAL, TABL_ALIGN_RIGHT);
+  tabl_add_column(&t, "Name", TABL_CONTENT_STRING, TABL_ALIGN_LEFT);
 
-	m_list_init(&values);
-	while ((pwd = getpwent()) != NULL) {
-		m_list_clear(&values);
-		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->name)+1);
-		m_list_append(&values, M_LIST_COPY_DEEP, &pwd->pw_uid, sizeof(uid_t));
-		tabl_add_row(&t, &values);
-	}
-	endpwent();
+  m_list_init(&values);
+  while ((pwd = getpwent()) != NULL) {
+    m_list_clear(&values);
+    m_list_append(&values, M_LIST_COPY_DEEP, &pwd->pw_uid, sizeof(uid_t));
+    m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
+    tabl_add_row(&t, &values);
+  }
+  endpwent();
 
-	tabl_render(&t, STDOUT_FILENO);
-	return EXIT_SUCCESS;
+  tabl_render(&t);
+  return EXIT_SUCCESS;
 }
 ```
 
@@ -44,6 +44,18 @@ Compile & run:
 ```
 $ clang -o passwd passwd.c -ltabl
 $ ./passwd
+  UID Name
+    0 root
+    8 news
+    9 man
+   22 sshd
+   25 smmsp
+   26 mailnull
+   68 pop
+   78 auditdistd
+   80 www
+  845 hast
+65534 nobody
 ```
 
 ## API
