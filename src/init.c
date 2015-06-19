@@ -12,4 +12,3 @@ tabl_init(struct tabl* t)
 	return TABL_OK;
 }
 
-
