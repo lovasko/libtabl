@@ -31,7 +31,7 @@ static void
 extend_width(void* _col, void* value, void* payload)
 {
 	struct column* col;
-	unsigned int width;
+	size_t width;
 
 	(void)payload;
 
@@ -46,7 +46,7 @@ extend_width(void* _col, void* value, void* payload)
 			if (*((int*)value) == 0)
 				width = 1;
 			else 
-				width = (unsigned int)floor(log10(fabs(*((int*)value))))+1;
+				width = (size_t)floor(log10(fabs(*((int*)value))))+1;
 		break;
 	}
 	

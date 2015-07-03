@@ -8,7 +8,7 @@ struct column
 	char* name;
 	uint8_t content;
 	uint8_t align;
-	unsigned int width;
+	size_t width;
 	int newline;
 };
 

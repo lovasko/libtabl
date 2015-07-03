@@ -54,18 +54,18 @@ set_newline(void* _col, void* accum, void* max_width)
 	struct column* col;
 
 	col = _col;
-	if (*((unsigned int*)accum) + col->width > *((unsigned int*)max_width)) {
+	if (*((size_t*)accum) + col->width > *((size_t*)max_width)) {
 		col->newline = 1;
-		*((unsigned int*)accum) = 1;
+		*((size_t*)accum) = 1;
 	}
 
-	*((unsigned int*)accum) += col->width;
+	*((size_t*)accum) += col->width;
 }
 
 int
 tabl_render(struct tabl* t, FILE* file)
 {
-	unsigned int accum;
+	size_t accum;
 	FILE* out;
 
 	if (t == NULL)
