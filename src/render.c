@@ -10,8 +10,12 @@ render_column(void* _col, void* payload)
 	
 	(void)payload;
 	col = _col;
+
+	if (col->newline)
+		printf("\n ");
+
 	printf(col->align == TABL_ALIGN_LEFT ? "%-*s " : "%*s ",
-	       col->max_width,
+	       col->width,
 	       col->name);
 }
 
@@ -22,15 +26,19 @@ render_value(void* _col, void* value, void* payload)
 
 	(void)payload;
 	col = _col;
+
+	if (col->newline)
+		printf("\n ");
+
 	switch (col->content) {
 		case TABL_CONTENT_STRING:
 			printf(col->align == TABL_ALIGN_LEFT ? "%-*s " : "%*s ",
-			       col->max_width,
+			       col->width,
 			       (char*)value);
 		return;
 
 		case TABL_CONTENT_DECIMAL:
-			printf("%*d ", col->max_width, *((int*)value));
+			printf("%*d ", col->width, *((int*)value));
 		return;
 	}
 }
@@ -42,11 +50,32 @@ render_row(void* row, void* t)
 	printf("\n");
 }
 
+static void
+set_newline(void* _col, void* accum, void* max_width)
+{
+	struct column* col;
+
+	col = _col;
+	if (*((unsigned int*)accum) + col->width > *((unsigned int*)max_width)) {
+		col->newline = 1;
+		*((unsigned int*)accum) = 1;
+	}
+
+	*((unsigned int*)accum) += col->width;
+}
+
 int
 tabl_render(struct tabl* t)
 {
+	unsigned int accum;
+
 	if (t == NULL)
 		return TABL_E_NULL;
+
+	if (t->max_width != 0) {
+		accum = 0;
+		m_list_map2(&t->columns, set_newline, &accum, &t->max_width);
+	}
 
 	m_list_map(&t->columns, render_column, NULL);
 	printf("\n");

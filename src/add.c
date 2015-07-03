@@ -20,7 +20,8 @@ tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align
 	col.name = strdup(name);
 	col.content = content;
 	col.align = align;
-	col.max_width = strlen(name);
+	col.width = strlen(name);
+	col.newline = 0;
 
 	m_list_append(&t->columns, M_LIST_COPY_DEEP, &col, sizeof(struct column));
 	return TABL_OK;
@@ -49,8 +50,8 @@ extend_width(void* _col, void* value, void* payload)
 		break;
 	}
 	
-	if (width > col->max_width)
-		col->max_width = width;
+	if (width > col->width)
+		col->width = width;
 }
 
 int
@@ -72,7 +73,7 @@ tabl_add_row(struct tabl* t, struct m_list* values)
 	m_list_init(row);
 	m_list_copy(values, row, M_LIST_COPY_DEEP);
 	m_list_append(&t->rows, M_LIST_COPY_SHALLOW, row, 0);
-		
+
 	return TABL_OK;
 }
 
