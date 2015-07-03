@@ -2,6 +2,7 @@
 #define TABL_H
 
 #include <stdint.h>
+#include <stdio.h>
 #include <m_list.h>
 
 struct tabl
@@ -25,7 +26,7 @@ struct tabl
 int tabl_init(struct tabl* t, unsigned int max_width);
 int tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align);
 int tabl_add_row(struct tabl* t, struct m_list* values);
-int tabl_render(struct tabl* t);
+int tabl_render(struct tabl* t, FILE* file);
 
 #endif
 
