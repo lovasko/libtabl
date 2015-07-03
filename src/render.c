@@ -34,7 +34,7 @@ render_value(void* _col, void* value, void* out)
 		return;
 
 		case TABL_CONTENT_DECIMAL:
-			fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*d " : "%*d",
+			fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*d " : "%*d ",
 			                    col->width,
 													*((int*)value));
 		return;
