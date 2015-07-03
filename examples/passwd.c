@@ -48,7 +48,7 @@ main(int argc, char* argv[])
 	}
 	endpwent();
 
-	tabl_render(&t);
+	tabl_render(&t, NULL);
 	return EXIT_SUCCESS;
 }
 
