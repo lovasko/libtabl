@@ -13,7 +13,7 @@ tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align
 	if (t == NULL)
 		return TABL_E_NULL;
 
-	m_list_size(&t->rows, &row_count);
+	m_list_length(&t->rows, &row_count);
 	if (row_count > 0)
 		return TABL_E_ROWS;
 
@@ -60,8 +60,8 @@ tabl_add_row(struct tabl* t, struct m_list* values)
 	uint64_t values_count;
 	struct m_list* row;
 
-	m_list_size(&t->columns, &column_count);
-	m_list_size(values, &values_count);
+	m_list_length(&t->columns, &column_count);
+	m_list_length(values, &values_count);
 
 	if (column_count != values_count)
 		return TABL_E_COUNT;
