@@ -1,0 +1,5 @@
+# this gitignore allows only itself and C source files to be present in the repository in
+# this directory
+*
+!.gitignore
+!*.c
