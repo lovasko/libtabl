@@ -1,5 +1,5 @@
 cflags = -g -D_BSD_SOURCE -fPIC -Isrc -ansi -pedantic -Wall -Wextra
-ldflags = 
+ldflags = -lmlist
 
 rule compile
  command = clang $cflags -c $in -o $out
