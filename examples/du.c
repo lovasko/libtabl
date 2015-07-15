@@ -7,6 +7,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <m_list.h>
+#include <its.h>
 
 #include "src/tabl.h"
 
@@ -20,6 +21,7 @@ main(int argc, char* argv[])
 	struct m_list values;
 	struct stat st;
 	struct tabl t;
+	char* size_str;
 
 	if ((dir = opendir(".")) == NULL) {
 		fprintf(stderr, "Unable to open '.'.\n");
@@ -44,19 +46,22 @@ main(int argc, char* argv[])
 	}
 	
 	tabl_init(&t, 0);
-	tabl_add_column(&t, "File", TABL_CONTENT_STRING, TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Size", TABL_CONTENT_DECIMAL, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "File", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Size", TABL_ALIGN_LEFT);
 
 	m_list_init(&values);
 	do {
 		if ((de = readdir(dir)) != NULL) {
 			stat(de->d_name, &st);
 			size = (int)st.st_size;
+			size_str = its(&size, ITS_SIZE_INT, ITS_SIGNED, ITS_BASE_DEC);
 					
 			m_list_clear(&values);
 			m_list_append(&values, M_LIST_COPY_DEEP, de->d_name, strlen(de->d_name)+1);
-			m_list_append(&values, M_LIST_COPY_DEEP, &size, sizeof(int));
+			m_list_append(&values, M_LIST_COPY_DEEP, size_str, strlen(size_str)+1);
 			tabl_add_row(&t, &values);
+
+			free(size_str);
 		}
 	} while (de != NULL);
 
