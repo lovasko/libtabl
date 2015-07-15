@@ -6,6 +6,7 @@
 #include <string.h>
 #include <pwd.h>
 #include <m_list.h>
+#include <its.h>
 
 #include "src/tabl.h"
 
@@ -16,6 +17,7 @@ main(int argc, char* argv[])
 	struct tabl t;
 	struct m_list values;
 	unsigned int width;
+	char* uid_str;
 
 	switch (argc) {
 		case 1:
@@ -32,19 +34,22 @@ main(int argc, char* argv[])
 	}
 
 	tabl_init(&t, width);
-	tabl_add_column(&t, "UID", TABL_CONTENT_DECIMAL, TABL_ALIGN_RIGHT);
-	tabl_add_column(&t, "Name", TABL_CONTENT_STRING, TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Directory", TABL_CONTENT_STRING, TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Shell", TABL_CONTENT_STRING, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "UID", TABL_ALIGN_RIGHT);
+	tabl_add_column(&t, "Name", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Directory", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Shell", TABL_ALIGN_LEFT);
 
 	m_list_init(&values);
 	while ((pwd = getpwent()) != NULL) {
+		uid_str = its(&pwd->pw_uid, sizeof(uid_t)*8, ITS_UNSIGNED, ITS_BASE_DEC);
+
 		m_list_clear(&values);
-		m_list_append(&values, M_LIST_COPY_DEEP, &pwd->pw_uid, sizeof(uid_t));
-		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
+		m_list_append(&values, M_LIST_COPY_DEEP, uid_str, strlen(uid_str)+1);		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_dir, strlen(pwd->pw_dir)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_shell, strlen(pwd->pw_shell)+1);
 		tabl_add_row(&t, &values);
+
+		free(uid_str);
 	}
 	endpwent();
 
