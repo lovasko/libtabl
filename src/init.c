@@ -1,7 +1,7 @@
 #include "tabl.h"
 
 int
-tabl_init(struct tabl* t, size_t max_width)
+tabl_init(struct tabl* t, unsigned int max_width)
 {
 	if (t == NULL)
 		return TABL_E_NULL;

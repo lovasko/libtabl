@@ -26,19 +26,9 @@ render_value(void* _col, void* value, void* out)
 	if (col->newline)
 		fprintf((FILE*)out, "\n ");
 
-	switch (col->content) {
-		case TABL_CONTENT_STRING:
-			fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*s " : "%*s ",
-			                    col->width,
-			                    (char*)value);
-		return;
-
-		case TABL_CONTENT_DECIMAL:
-			fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*d " : "%*d ",
-			                    col->width,
-													*((int*)value));
-		return;
-	}
+	fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*s " : "%*s ",
+											col->width,
+											(char*)value);
 }
 
 static void
@@ -54,18 +44,18 @@ set_newline(void* _col, void* accum, void* max_width)
 	struct column* col;
 
 	col = _col;
-	if (*((size_t*)accum) + col->width > *((size_t*)max_width)) {
+	if (*((unsigned int*)accum) + col->width > *((unsigned int*)max_width)) {
 		col->newline = 1;
-		*((size_t*)accum) = 1;
+		*((unsigned int*)accum) = 1;
 	}
 
-	*((size_t*)accum) += col->width;
+	*((unsigned int*)accum) += col->width;
 }
 
 int
 tabl_render(struct tabl* t, FILE* file)
 {
-	size_t accum;
+	unsigned int accum;
 	FILE* out;
 
 	if (t == NULL)

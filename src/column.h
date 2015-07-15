@@ -6,10 +6,9 @@
 struct column
 {
 	char* name;
-	uint8_t content;
-	uint8_t align;
-	size_t width;
+	unsigned int width;
 	int newline;
+	uint8_t align;
 };
 
 #endif

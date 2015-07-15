@@ -5,7 +5,7 @@
 #include "column.h"
 
 int
-tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align)
+tabl_add_column(struct tabl* t, const char* name, uint8_t align)
 {
 	struct column col;
 	uint64_t row_count;
@@ -18,7 +18,6 @@ tabl_add_column(struct tabl* t, const char* name, uint8_t content, uint8_t align
 		return TABL_E_ROWS;
 
 	col.name = strdup(name);
-	col.content = content;
 	col.align = align;
 	col.width = strlen(name);
 	col.newline = 0;
@@ -31,25 +30,13 @@ static void
 extend_width(void* _col, void* value, void* payload)
 {
 	struct column* col;
-	size_t width;
+	unsigned int width;
 
 	(void)payload;
 
-	width = 0;
 	col = _col;
-	switch (col->content) {
-		case TABL_CONTENT_STRING:
-			width = strlen(value);
-		break;
+	width = strlen((char*)value);
 
-		case TABL_CONTENT_DECIMAL:
-			if (*((int*)value) == 0)
-				width = 1;
-			else 
-				width = (size_t)floor(log10(fabs(*((int*)value))))+1;
-		break;
-	}
-	
 	if (width > col->width)
 		col->width = width;
 }
