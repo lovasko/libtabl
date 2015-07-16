@@ -34,10 +34,10 @@ main(int argc, char* argv[])
 	}
 
 	tabl_init(&t, width);
-	tabl_add_column(&t, "UID", TABL_ALIGN_RIGHT);
-	tabl_add_column(&t, "Name", TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Directory", TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Shell", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "UID", NULL, TABL_ALIGN_RIGHT);
+	tabl_add_column(&t, "Name", NULL, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Directory", NULL, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Shell", NULL, TABL_ALIGN_LEFT);
 
 	m_list_init(&values);
 	while ((pwd = getpwent()) != NULL) {

@@ -46,8 +46,8 @@ main(int argc, char* argv[])
 	}
 	
 	tabl_init(&t, 0);
-	tabl_add_column(&t, "File", TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "Size", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "File", NULL, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Size", NULL, TABL_ALIGN_LEFT);
 
 	m_list_init(&values);
 	do {

@@ -31,10 +31,10 @@ main(void)
 	tabl_init(&t, 0);
 	m_list_init(&values);
 
-	tabl_add_column(&t, "Hexspeak", TABL_ALIGN_LEFT);
-	tabl_add_column(&t, "English", TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "Hexspeak", NULL, TABL_ALIGN_LEFT);
+	tabl_add_column(&t, "English", NULL, TABL_ALIGN_LEFT);
 
-	for (i = 0; i < sizeof(pairs)/sizeof(pairs[0]); i++) {
+	for (i = 0; i < 4; i++) {
 		hex_str = its(&pairs[i].value, 32, ITS_UNSIGNED, ITS_BASE_HEX | ITS_PREFIX);
 		m_list_clear(&values);
 		m_list_append(&values, M_LIST_COPY_DEEP, hex_str, strlen(hex_str)+1);
