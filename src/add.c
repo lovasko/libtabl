@@ -4,8 +4,17 @@
 #include "tabl.h"
 #include "column.h"
 
+static size_t
+max(size_t a, size_t b)
+{
+	return (a > b ? a : b);
+}
+
 int
-tabl_add_column(struct tabl* t, const char* name, uint8_t align)
+tabl_add_column(struct tabl* t,
+                const char* name,
+                const char* suffix,
+                uint8_t align)
 {
 	struct column col;
 	uint64_t row_count;
@@ -18,8 +27,10 @@ tabl_add_column(struct tabl* t, const char* name, uint8_t align)
 		return TABL_E_ROWS;
 
 	col.name = strdup(name);
+	col.suffix = (suffix != NULL ? strdup(suffix) : NULL);
+	col.suffix_width = (suffix != NULL ? (unsigned int)strlen(suffix) : 0);
 	col.align = align;
-	col.width = strlen(name);
+	col.width = max(strlen(name), col.suffix_width);
 	col.newline = 0;
 
 	m_list_append(&t->columns, M_LIST_COPY_DEEP, &col, sizeof(struct column));
@@ -35,7 +46,7 @@ extend_width(void* _col, void* value, void* payload)
 	(void)payload;
 
 	col = _col;
-	width = strlen((char*)value);
+	width = strlen((char*)value) + col->suffix_width;
 
 	if (width > col->width)
 		col->width = width;

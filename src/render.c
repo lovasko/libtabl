@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "tabl.h"
 #include "column.h"
@@ -26,9 +27,16 @@ render_value(void* _col, void* value, void* out)
 	if (col->newline)
 		fprintf((FILE*)out, "\n ");
 
-	fprintf((FILE*)out, col->align == TABL_ALIGN_LEFT ? "%-*s " : "%*s ",
-											col->width,
-											(char*)value);
+	if (col->align == TABL_ALIGN_LEFT)
+		fprintf((FILE*)out, "%-s%-*s ",
+												(char*)value,
+												col->width - (unsigned int)strlen((char*)value),
+												(col->suffix != NULL ? col->suffix : ""));
+	else
+		fprintf((FILE*)out, "%*s%s ",
+												col->width - col->suffix_width,
+												(char*)value,
+												(col->suffix != NULL ? col->suffix : ""));
 }
 
 static void

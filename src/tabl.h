@@ -5,8 +5,7 @@
 #include <stdio.h>
 #include <m_list.h>
 
-struct tabl
-{
+struct tabl {
 	struct m_list columns;
 	struct m_list rows;
 	unsigned int max_width;
@@ -21,7 +20,7 @@ struct tabl
 #define TABL_ALIGN_RIGHT 1
 
 int tabl_init(struct tabl* t, unsigned int max_width);
-int tabl_add_column(struct tabl* t, const char* name, uint8_t align);
+int tabl_add_column(struct tabl* t, const char* name, const char* suffix, uint8_t align);
 int tabl_add_row(struct tabl* t, struct m_list* values);
 int tabl_render(struct tabl* t, FILE* file);
 
