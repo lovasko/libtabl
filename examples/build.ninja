@@ -1,0 +1,19 @@
+cflags = -g -D_BSD_SOURCE -fPIC -I.. -ansi -pedantic -Wall -Wextra
+ldflags = ../bin/libtabl.so -lmlist -lits
+
+rule compile
+ command = clang $cflags -c $in -o $out
+
+rule link
+ command = clang -o $out $in $ldflags
+
+build obj/df.o: compile df.c
+build obj/du.o: compile du.c
+build obj/passwd.o: compile passwd.c
+build obj/hexspeak.o: compile hexspeak.c
+
+build df: link obj/df.o
+build du: link obj/du.o
+build passwd: link obj/passwd.o
+build hexspeak: link obj/hexspeak.o
+
