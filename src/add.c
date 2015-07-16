@@ -30,7 +30,7 @@ tabl_add_column(struct tabl* t,
 	col.suffix = (suffix != NULL ? strdup(suffix) : NULL);
 	col.suffix_width = (suffix != NULL ? (unsigned int)strlen(suffix) : 0);
 	col.align = align;
-	col.width = max(strlen(name), col.suffix_width);
+	col.width = (unsigned int)max(strlen(name), col.suffix_width);
 	col.newline = 0;
 
 	m_list_append(&t->columns, M_LIST_COPY_DEEP, &col, sizeof(struct column));
@@ -46,7 +46,7 @@ extend_width(void* _col, void* value, void* payload)
 	(void)payload;
 
 	col = _col;
-	width = strlen((char*)value) + col->suffix_width;
+	width = (unsigned int)strlen((char*)value) + col->suffix_width;
 
 	if (width > col->width)
 		col->width = width;
