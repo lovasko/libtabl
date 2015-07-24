@@ -10,6 +10,7 @@ rule link
 build obj/add.o: compile src/add.c
 build obj/init.o: compile src/init.c
 build obj/render.o: compile src/render.c
+build obj/sort.o: compile src/sort.c
 
-build bin/libtabl.so: link obj/add.o obj/init.o obj/render.o
+build bin/libtabl.so: link obj/add.o obj/init.o obj/render.o obj/sort.o
 

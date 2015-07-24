@@ -22,6 +22,7 @@ struct tabl {
 int tabl_init(struct tabl* t, unsigned int max_width);
 int tabl_add_column(struct tabl* t, const char* name, const char* suffix, uint8_t align);
 int tabl_add_row(struct tabl* t, struct m_list* values);
+int tabl_sort(struct tabl* t, unsigned int col_num, int(*cmp_fn)(void*, void*));
 int tabl_render(struct tabl* t, FILE* file);
 
 #endif
