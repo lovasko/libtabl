@@ -65,6 +65,7 @@ main(int argc, char* argv[])
 		}
 	} while (de != NULL);
 
+	tabl_sort(&t, 0, strcmp);
 	tabl_render(&t, output);
 	return EXIT_SUCCESS;
 }
