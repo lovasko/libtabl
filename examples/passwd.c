@@ -44,7 +44,8 @@ main(int argc, char** argv)
 		uid_str = its(&pwd->pw_uid, sizeof(uid_t)*8, ITS_UNSIGNED, ITS_BASE_DEC);
 
 		m_list_clear(&values);
-		m_list_append(&values, M_LIST_COPY_DEEP, uid_str, strlen(uid_str)+1);		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
+		m_list_append(&values, M_LIST_COPY_DEEP, uid_str, strlen(uid_str)+1);
+		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_dir, strlen(pwd->pw_dir)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_shell, strlen(pwd->pw_shell)+1);
 		tabl_add_row(&t, &values);
