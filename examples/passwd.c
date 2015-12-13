@@ -11,7 +11,7 @@
 #include "src/tabl.h"
 
 int
-main(int argc, char* argv[])
+main(int argc, char** argv)
 {
 	struct passwd* pwd;
 	struct tabl t;
