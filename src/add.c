@@ -14,7 +14,7 @@ int
 tabl_add_column(struct tabl* t,
                 const char* name,
                 const char* suffix,
-                uint8_t align)
+                int align)
 {
 	struct column col;
 	uint64_t row_count;
