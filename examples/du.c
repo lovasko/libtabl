@@ -11,6 +11,12 @@
 
 #include "src/tabl.h"
 
+static int
+string_compare(void* a, void* b)
+{
+	return strcmp((const char*)a, (const char*)b);
+}
+
 int
 main(int argc, char* argv[])
 {
@@ -18,9 +24,9 @@ main(int argc, char* argv[])
 	FILE* output;
 	int size;
 	struct dirent* de;
-	struct m_list values;
+	m_list values;
 	struct stat st;
-	struct tabl t;
+	tabl t;
 	char* size_str;
 
 	if ((dir = opendir(".")) == NULL) {
@@ -56,7 +62,7 @@ main(int argc, char* argv[])
 			size = (int)st.st_size;
 			size_str = its(&size, ITS_SIZE_INT, ITS_SIGNED, ITS_BASE_DEC);
 					
-			m_list_clear(&values);
+			m_list_remove_all(&values);
 			m_list_append(&values, M_LIST_COPY_DEEP, de->d_name, strlen(de->d_name)+1);
 			m_list_append(&values, M_LIST_COPY_DEEP, size_str, strlen(size_str)+1);
 			tabl_add_row(&t, &values);
@@ -65,7 +71,7 @@ main(int argc, char* argv[])
 		}
 	} while (de != NULL);
 
-	tabl_sort(&t, 0, strcmp);
+	tabl_sort(&t, 0, string_compare);
 	tabl_render(&t, output);
 	return EXIT_SUCCESS;
 }

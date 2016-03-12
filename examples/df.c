@@ -13,11 +13,11 @@
 int
 main(void)
 {
-	struct tabl t;
+	tabl t;
 	struct statvfs vfs;
 	FILE *file;
 	struct mntent *mount;
-	struct m_list values;
+	m_list values;
 	unsigned long total;
 	unsigned long available;
 	unsigned long _free;
@@ -44,7 +44,7 @@ main(void)
 		final = 100 - 100 * used / (used + available);
 		final_str = its(&final, sizeof(unsigned long)*8, ITS_UNSIGNED, ITS_BASE_DEC);
 
-		m_list_clear(&values);
+		m_list_remove_all(&values);
 		m_list_append(&values, M_LIST_COPY_DEEP, mount->mnt_dir, strlen(mount->mnt_dir)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, final_str, strlen(final_str)+1);
 		tabl_add_row(&t, &values);

@@ -4,11 +4,12 @@
 #include <stdio.h>
 #include <m_list.h>
 
-struct tabl {
-	struct m_list columns;
-	struct m_list rows;
+typedef struct tabl {
+	m_list columns;
+	m_list rows;
 	unsigned int max_width;
-};
+	unsigned int padding;
+} tabl;
 
 #define TABL_OK      0
 #define TABL_E_NULL  1
@@ -18,11 +19,11 @@ struct tabl {
 #define TABL_ALIGN_LEFT  0
 #define TABL_ALIGN_RIGHT 1
 
-int tabl_init(struct tabl* t, unsigned int max_width);
-int tabl_add_column(struct tabl* t, const char* name, const char* suffix, int align);
-int tabl_add_row(struct tabl* t, struct m_list* values);
-int tabl_sort(struct tabl* t, unsigned int col_num, int(*cmp_fn)(void*, void*));
-int tabl_render(struct tabl* t, FILE* file);
+int tabl_init(tabl* t, unsigned int max_width);
+int tabl_add_column(tabl* t, const char* name, const char* suffix, int align);
+int tabl_add_row(tabl* t, m_list* values);
+int tabl_sort(tabl* t, unsigned int col_num, int(*cmp_fn)(void*, void*));
+int tabl_render(tabl* t, FILE* file);
 
 #endif
 

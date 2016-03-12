@@ -11,10 +11,7 @@ max(size_t a, size_t b)
 }
 
 int
-tabl_add_column(struct tabl* t,
-                const char* name,
-                const char* suffix,
-                int align)
+tabl_add_column(tabl* t, const char* name, const char* suffix, int align)
 {
 	struct column col;
 	uint64_t row_count;
@@ -53,11 +50,11 @@ extend_width(void* _col, void* value, void* payload)
 }
 
 int
-tabl_add_row(struct tabl* t, struct m_list* values)
+tabl_add_row(tabl* t, m_list* values)
 {
 	uint64_t column_count;
 	uint64_t values_count;
-	struct m_list* row;
+	m_list* row;
 
 	m_list_length(&t->columns, &column_count);
 	m_list_length(values, &values_count);
@@ -67,7 +64,7 @@ tabl_add_row(struct tabl* t, struct m_list* values)
 
 	m_list_zip(&t->columns, values, extend_width, NULL);
 
-	row = malloc(sizeof(struct m_list));
+	row = malloc(sizeof(m_list));
 	m_list_init(row);
 	m_list_copy(values, row, M_LIST_COPY_DEEP);
 	m_list_append(&t->rows, M_LIST_COPY_SHALLOW, row, 0);

@@ -14,8 +14,8 @@ int
 main(int argc, char** argv)
 {
 	struct passwd* pwd;
-	struct tabl t;
-	struct m_list values;
+	tabl t;
+	m_list values;
 	unsigned int width;
 	char* uid_str;
 
@@ -43,7 +43,7 @@ main(int argc, char** argv)
 	while ((pwd = getpwent()) != NULL) {
 		uid_str = its(&pwd->pw_uid, sizeof(uid_t)*8, ITS_UNSIGNED, ITS_BASE_DEC);
 
-		m_list_clear(&values);
+		m_list_remove_all(&values);
 		m_list_append(&values, M_LIST_COPY_DEEP, uid_str, strlen(uid_str)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_name, strlen(pwd->pw_name)+1);
 		m_list_append(&values, M_LIST_COPY_DEEP, pwd->pw_dir, strlen(pwd->pw_dir)+1);
